@@ -1,28 +1,17 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSignup } from "../hooks/useSignup";
 
-const SignupComponent = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const { signup, isLoading, error } = useSignup();
-  const navigate = useNavigate();
-  const [formError, setFormError] = useState(null);
-
-  const handleSignup = async () => {
-    // client-side validation
-    if (password !== password2) {
-      setFormError("Passwords do not match");
-      return;
-    }
-
-    const user = await signup(email, password);
-    if (user) {
-      setIsAuthenticated(true);
-      navigate("/");
-    }
-  };
+const SignupComponent = ({setIsAuthenticated}) => {
+  const { email,
+      setEmail,
+      password,
+      setPassword,
+      password2,
+      setPassword2,
+      formError,
+      setFormError,
+      handleSignup,
+      isLoading,
+      error } = useSignup(setIsAuthenticated);
 
   return (
     <div className="form-container">

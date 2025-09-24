@@ -2,19 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 
-const LoginComponent = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, isLoading, error } = useLogin();
-  const navigate = useNavigate();
-
-  const handleLogin = async () => {
-    const user = await login(email, password);
-    if (user) {
-      setIsAuthenticated(true);
-      navigate("/");
-    }
-  };
+const LoginComponent = ( {setIsAuthenticated} ) => {
+  const { email,setEmail,password,setPassword,handleLogin, isLoading, error } = useLogin(setIsAuthenticated);
 
   return (
     <div className="form-container">

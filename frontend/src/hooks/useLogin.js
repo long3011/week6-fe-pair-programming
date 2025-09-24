@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const useLogin = () => {
+export const useLogin = (setIsAuthenticated) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const login = async (email, password) => {
+  const handleLogin = async () => {
     setIsLoading(true);
     setError(null);
 
@@ -20,20 +24,19 @@ export const useLogin = () => {
       if (!response.ok) {
         setIsLoading(false);
         setError(json.error || "Login failed");
-        return null;
       }
 
       // Save user to localStorage
-sessionStorage.setItem("user", JSON.stringify(json));
-
+      sessionStorage.setItem("user", JSON.stringify(json));
       setIsLoading(false);
-      return json;
+      setIsAuthenticated(true);
+      navigate("/");
     } catch (err) {
       setError("Something went wrong, please try again.");
+      console.error(err);
       setIsLoading(false);
-      return null;
     }
   };
 
-  return { login, isLoading, error };
+  return { email,setEmail,password,setPassword,handleLogin, isLoading, error };
 };
